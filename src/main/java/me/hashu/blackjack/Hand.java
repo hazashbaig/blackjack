@@ -16,4 +16,9 @@ public class Hand {
                 .map(Rank::getValue)
                 .reduce(0, Integer::sum);
     }
+
+    @Override
+    public String toString() {
+        return String.format("Hand%s", cards);
+    }
 }

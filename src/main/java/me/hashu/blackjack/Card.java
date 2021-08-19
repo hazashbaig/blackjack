@@ -16,4 +16,9 @@ public class Card {
     public Suit getSuit() {
         return suit;
     }
+
+    @Override
+    public String toString() {
+        return String.format("{%s,%s}", rank, suit);
+    }
 }
