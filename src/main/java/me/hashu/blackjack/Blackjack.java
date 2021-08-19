@@ -35,8 +35,8 @@ public class Blackjack implements CommandLineRunner {
 
     private void throwIfDealerFound(String[] playerNames) {
         for (String name : playerNames) {
-            if (name.equals("dealer")) {
-                throw new IllegalArgumentException("Player name cannot be 'dealer'");
+            if (name.equalsIgnoreCase("dealer")) {
+                throw new IllegalArgumentException(String.format("Player name cannot be %s", name));
             }
         }
     }
@@ -45,7 +45,7 @@ public class Blackjack implements CommandLineRunner {
         HashSet<String> seen = new HashSet<>();
         for (String name : playerNames) {
             if (seen.contains(name)) {
-                throw new IllegalArgumentException(String.format("Duplicate player names NOT allowed: %s", name));
+                throw new IllegalArgumentException(String.format("Duplicate player names NOT allowed: '%s'", name));
             }
             seen.add(name);
         }
