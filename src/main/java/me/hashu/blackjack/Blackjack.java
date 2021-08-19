@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Scanner;
 
@@ -13,9 +14,13 @@ import java.util.Scanner;
 public class Blackjack implements CommandLineRunner {
     @Override
     public void run(String... args) {
-        String[] playerNames = getPlayerNames();
-        Map<String, Hand> playerHands = initializeHands(playerNames);
-        // TODO: finish making the game
+        try {
+            String[] playerNames = getPlayerNames();
+            Map<String, Hand> playerHands = initializeHands(playerNames);
+            System.out.println(playerHands);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     private String[] getPlayerNames() {
@@ -23,12 +28,27 @@ public class Blackjack implements CommandLineRunner {
         System.out.print("Enter Player names separated by space: ");
         String playerNamesInput = scanner.nextLine();
         String[] playerNames = playerNamesInput.split("\\W+");
+        throwIfDealerFound(playerNames);
+        throwIfDuplicateFound(playerNames);
+        return playerNames;
+    }
+
+    private void throwIfDealerFound(String[] playerNames) {
         for (String name : playerNames) {
             if (name.equals("dealer")) {
                 throw new IllegalArgumentException("Player name cannot be 'dealer'");
             }
         }
-        return playerNames;
+    }
+
+    private void throwIfDuplicateFound(String[] playerNames) {
+        HashSet<String> seen = new HashSet<>();
+        for (String name : playerNames) {
+            if (seen.contains(name)) {
+                throw new IllegalArgumentException(String.format("Duplicate player names NOT allowed: %s", name));
+            }
+            seen.add(name);
+        }
     }
 
     private Map<String, Hand> initializeHands(String[] playerNames) {
