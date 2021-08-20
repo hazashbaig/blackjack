@@ -17,6 +17,7 @@ public class Blackjack implements CommandLineRunner {
         try {
             String[] playerNames = getPlayerNames();
             Map<String, Hand> playerHands = initializeHands(playerNames);
+            dealCards(playerHands);
             System.out.println(playerHands);
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -58,5 +59,12 @@ public class Blackjack implements CommandLineRunner {
         }
         playerHands.put("dealer", new Hand());
         return playerHands;
+    }
+
+    private void dealCards(Map<String, Hand> playerHands) {
+        for (String key : playerHands.keySet()) {
+            playerHands.get(key).addCard(Card.getRandomCard());
+            playerHands.get(key).addCard(Card.getRandomCard());
+        }
     }
 }
