@@ -1,19 +1,18 @@
 package me.hashu.blackjack;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Scanner;
+import java.util.*;
 
 public class Blackjack {
+    Scanner scanner = new Scanner(System.in);
     private Map<String, Hand> playerHands;
 
     public void start() {
         try {
             String[] playerNames = getPlayerNames();
             initializeHands(playerNames);
-            dealCards();
+            dealTwoCards();
             printCards();
+            serve();
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
@@ -25,12 +24,12 @@ public class Blackjack {
             for (Card card : entry.getValue().getCards()) {
                 System.out.println(card.humanReadableFormat());
             }
+            System.out.println(entry.getValue().getSum());
             System.out.println("**************************************************");
         }
     }
 
     private String[] getPlayerNames() {
-        Scanner scanner = new Scanner(System.in);
         System.out.print("Enter Player names separated by space: ");
         String playerNamesInput = scanner.nextLine();
         String[] playerNames = playerNamesInput.split("\\W+");
@@ -66,10 +65,38 @@ public class Blackjack {
         this.playerHands = playerHands;
     }
 
-    private void dealCards() {
+    private void dealTwoCards() {
         for (String key : playerHands.keySet()) {
             playerHands.get(key).addCard(Card.getRandomCard());
             playerHands.get(key).addCard(Card.getRandomCard());
+        }
+    }
+
+    private void serve() {
+        for (Map.Entry<String, Hand> entry : playerHands.entrySet()) {
+            String currentPlayerName = entry.getKey();
+            if (currentPlayerName.equals("dealer")) {
+                continue;
+            }
+            while (hit()) {
+                System.out.println(currentPlayerName);
+                playerHands.get(currentPlayerName).addCard(Card.getRandomCard());
+                printCards();
+            }
+        }
+    }
+
+    private boolean hit() {
+        while (true) {
+            System.out.print("Hit(h) / Stand(s) : ");
+            String input = scanner.nextLine().toLowerCase();
+            if (input.equals("h")) {
+                return true;
+            }
+            if (input.equals("s")) {
+                return false;
+            }
+            System.out.println("Please type either 'h' or 's'");
         }
     }
 }
