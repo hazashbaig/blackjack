@@ -23,7 +23,7 @@ public class Blackjack {
         for (Map.Entry<String, Hand> entry : playerHands.entrySet()) {
             System.out.println(entry.getKey());
             for (Card card : entry.getValue().getCards()) {
-                System.out.println(card);
+                System.out.println(card.humanReadableFormat());
             }
             System.out.println("**************************************************");
         }

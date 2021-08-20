@@ -13,6 +13,14 @@ public class Card {
         return new Card(Rank.getRandomRank(), Suit.getRandomSuit());
     }
 
+    public String humanReadableFormat() {
+        return String.format("%s of %ss", toTitleCase(rank.toString()), toTitleCase(suit.toString()));
+    }
+
+    private String toTitleCase(String word) {
+        return word.substring(0, 1).toUpperCase() + word.substring(1).toLowerCase();
+    }
+
     public Rank getRank() {
         return rank;
     }
