@@ -1,23 +1,18 @@
 package me.hashu.blackjack;
 
-import org.springframework.boot.CommandLineRunner;
-import org.springframework.context.annotation.Profile;
-import org.springframework.stereotype.Component;
-
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Scanner;
 
-@Profile("!test")
-@Component
-public class Blackjack implements CommandLineRunner {
-    @Override
-    public void run(String... args) {
+public class Blackjack {
+    private Map<String, Hand> playerHands;
+
+    public void start() {
         try {
             String[] playerNames = getPlayerNames();
-            Map<String, Hand> playerHands = initializeHands(playerNames);
-            dealCards(playerHands);
+            initializeHands(playerNames);
+            dealCards();
             System.out.println(playerHands);
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -52,16 +47,16 @@ public class Blackjack implements CommandLineRunner {
         }
     }
 
-    private Map<String, Hand> initializeHands(String[] playerNames) {
+    private void initializeHands(String[] playerNames) {
         Map<String, Hand> playerHands = new HashMap<>();
         for (String name : playerNames) {
             playerHands.put(name, new Hand());
         }
         playerHands.put("dealer", new Hand());
-        return playerHands;
+        this.playerHands = playerHands;
     }
 
-    private void dealCards(Map<String, Hand> playerHands) {
+    private void dealCards() {
         for (String key : playerHands.keySet()) {
             playerHands.get(key).addCard(Card.getRandomCard());
             playerHands.get(key).addCard(Card.getRandomCard());
