@@ -13,6 +13,8 @@ public class Blackjack {
             dealTwoCards();
             printHands();
             serve();
+            dealerPlay();
+            printResult();
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
@@ -82,6 +84,30 @@ public class Blackjack {
             while (!currentPlayerHand.isBusted() && hit()) {
                 playerHands.get(currentPlayerName).addCard(Card.getRandomCard());
                 printHands();
+            }
+        }
+    }
+
+    private void dealerPlay() {
+        System.out.println("\nDealer is Playing\n");
+        String playerName = "dealer";
+        Hand playerHand = playerHands.get(playerName);
+        while (!playerHand.isBusted() && (playerHand.getTotalSum() <= 17)) {
+            playerHands.get(playerName).addCard(Card.getRandomCard());
+            playerHand.printHand();
+        }
+    }
+
+    private void printResult() {
+        int maxScore = playerHands.values().stream()
+                .map(Hand::getTotalSum)
+                .max(Comparator.comparing(Integer::intValue))
+                .orElseThrow(NoSuchElementException::new);
+
+        System.out.println("\n*WINNERS*\n");
+        for (Map.Entry<String, Hand> entry : playerHands.entrySet()) {
+            if ((entry.getValue().getTotalSum() == maxScore) && !entry.getValue().isBusted()) {
+                System.out.println(entry.getKey());
             }
         }
     }
