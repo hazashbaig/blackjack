@@ -10,6 +10,10 @@ public class Hand {
         cards.add(card);
     }
 
+    public List<Card> getCards() {
+        return cards;
+    }
+
     public int getSum() {
         return cards.stream()
                 .map(Card::getRank)

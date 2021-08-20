@@ -13,9 +13,19 @@ public class Blackjack {
             String[] playerNames = getPlayerNames();
             initializeHands(playerNames);
             dealCards();
-            System.out.println(playerHands);
+            printCards();
         } catch (Exception e) {
             System.out.println(e.getMessage());
+        }
+    }
+
+    private void printCards() {
+        for (Map.Entry<String, Hand> entry : playerHands.entrySet()) {
+            System.out.println(entry.getKey());
+            for (Card card : entry.getValue().getCards()) {
+                System.out.println(card);
+            }
+            System.out.println("**************************************************");
         }
     }
 
