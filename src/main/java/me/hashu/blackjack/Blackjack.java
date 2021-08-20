@@ -78,8 +78,8 @@ public class Blackjack {
             if (currentPlayerName.equals("dealer")) {
                 continue;
             }
+            System.out.println(currentPlayerName);
             while (hit()) {
-                System.out.println(currentPlayerName);
                 playerHands.get(currentPlayerName).addCard(Card.getRandomCard());
                 printCards();
             }
