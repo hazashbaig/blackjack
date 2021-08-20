@@ -11,21 +11,20 @@ public class Blackjack {
             String[] playerNames = getPlayerNames();
             initializeHands(playerNames);
             dealTwoCards();
-            printCards();
+            printHands();
             serve();
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
     }
 
-    private void printCards() {
+    private void printHands() {
         for (Map.Entry<String, Hand> entry : playerHands.entrySet()) {
-            System.out.println(entry.getKey());
-            for (Card card : entry.getValue().getCards()) {
-                System.out.println(card.humanReadableFormat());
-            }
-            System.out.println(entry.getValue().getSum());
-            System.out.println("**************************************************");
+            String playerName = entry.getKey();
+            Hand playerHand = entry.getValue();
+            System.out.println(playerName);
+            playerHand.printHand();
+            System.out.println("\n**************************************************\n");
         }
     }
 
@@ -75,13 +74,14 @@ public class Blackjack {
     private void serve() {
         for (Map.Entry<String, Hand> entry : playerHands.entrySet()) {
             String currentPlayerName = entry.getKey();
+            Hand currentPlayerHand = entry.getValue();
             if (currentPlayerName.equals("dealer")) {
                 continue;
             }
             System.out.println(currentPlayerName);
-            while (hit()) {
+            while (!currentPlayerHand.isBusted() && hit()) {
                 playerHands.get(currentPlayerName).addCard(Card.getRandomCard());
-                printCards();
+                printHands();
             }
         }
     }
