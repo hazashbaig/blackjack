@@ -20,7 +20,7 @@ class UnitTest {
         hand.addCard(new Card(Rank.ACE, Suit.DIAMOND));
         hand.addCard(new Card(Rank.SEVEN, Suit.CLUB));
 
-        assertThat(hand.getSum()).isEqualTo(28);
+        assertThat(hand.getTotalSum()).isEqualTo(28);
     }
 
 }
