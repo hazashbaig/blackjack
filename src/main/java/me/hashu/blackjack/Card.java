@@ -9,6 +9,10 @@ public class Card {
         this.suit = suit;
     }
 
+    public static Card getRandomCard() {
+        return new Card(Rank.getRandomRank(), Suit.getRandomSuit());
+    }
+
     public Rank getRank() {
         return rank;
     }

@@ -1,5 +1,7 @@
 package me.hashu.blackjack;
 
+import java.util.Random;
+
 public enum Rank {
     ACE(1),
     TWO(2),
@@ -16,9 +18,15 @@ public enum Rank {
     KING(10);
 
     private final int value;
+    private static final Random random = new Random();
 
     Rank(int value) {
         this.value = value;
+    }
+
+    public static Rank getRandomRank() {
+        int randomIdx = random.nextInt(values().length);
+        return values()[randomIdx];
     }
 
     public int getValue() {
